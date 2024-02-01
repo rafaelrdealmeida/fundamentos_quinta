@@ -9,7 +9,7 @@ Mini-curso - Fundamentos de **Análise de dados**
 
 - GITHUB e GITLAB: rede social para compatilhar código
 - GIT: versionar o código
-- [OhShitGit](https://ohshitgit.com/pt_br)
+- [OhShitGit](https://ohshitgit.com/pt_br/swears/)
 
 #### Versionando o código
   

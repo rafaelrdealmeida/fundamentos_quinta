@@ -1,0 +1,11 @@
+name: env_fundamentos_quinta
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python
+  - beautifulsoup4
+  - requests
+  - selenium
+  - pandas
+  - matplotlib

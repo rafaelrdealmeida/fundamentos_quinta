@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
 
@@ -21,40 +23,17 @@ def acessar_pagina_dinamica(link):
     for tag_ano in tag_anos:
         ano = tag_ano
         anos.append(ano)
-    #     #button1[
 
-    data = anos[5].click()
-    sleep (2)
-    botao_pesquisar = navegador.find_element(By.CSS_SELECTOR,"#button1").click()
-    sleep (2)
+    contador = 0
+    while contador < 30:
+        encontrar = navegador.find_element(By.CSS_SELECTOR, "#ano").find_elements(By.TAG_NAME, "option")
+        encontrar[contador].click()
+        navegador.find_element(By.CSS_SELECTOR,"#button1").click()
+        contador = contador + 1
+        sleep(2)
 
-    # for i in range(0,10):
-
-    #     data = anos[i].click()
-    #     sleep (2)
-    #     botao_pesquisar = navegador.find_element(By.CSS_SELECTOR,"#button1").click()
-    #     sleep (2)
-
-    # for ano in anos[-3:-1]:
-    #     data = ano.click()
-    #     sleep (2)
-    #     botao_pesquisar = navegador.find_element(By.CSS_SELECTOR, "#button1").click()
-    #     sleep(2)
-    #     print("fim")
-
-
-
-
-
-    # for tag_ano in anos:
-
-    #     data = anos[2].click()
-    #     sleep(10)
-    #     botao_pesquisar = navegador.find_element(By.CSS_SELECTOR, "#button1").click()
-    #     sleep(2)
-       
-    # # clicar em pesquisar
-   
+        
+    
 
 
 

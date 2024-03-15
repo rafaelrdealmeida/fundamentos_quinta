@@ -1,3 +1,4 @@
+import json
 import requests
 import urllib.request
 from datetime import datetime
@@ -47,25 +48,52 @@ def acessar_pagina_dinamica(link):
             data_objeto = datetime.strptime(data_string, "%d/%m/%Y")
             # Formatar para o formato "yyyy-mm-dd"
             data_formatada = data_objeto.strftime("%Y-%m-%d")
-            ##########
-            # Coletando link com o requests
-            ##########
             
-            # # Obtenha o URL da página atual (após redirecionamento, se houver)
-            link = navegador.current_url
+            pdf = obter_url_final_apos_redirecionamentos(atributo_href)
             
-            # Baixe o PDF
-            # urllib.request.urlretrieve(link,  f'{data_formatada}.pdf')
-            pdf = requests.get(link)
-            # http://Imagem.camara.gov.br/Imagem/d/pdf/DCD0020240125000010000.PDF#page=
-            # [http://Imagem.camara.gov.br/Imagem/d/pdf/DCD0020240125000010000.PDF,page=]
-            link_pdf = link.split("#")[0]
-            print(link_pdf)
-            with open( f'{data_formatada}.pdf', 'wb') as f:
-                f.write(link_pdf.content)
-
+            resposta = requests.get(pdf)
+    
+            # Verifique se a solicitação foi bem-sucedida (status code 200)
+            if resposta.status_code == 200:
+                # Salve o conteúdo do PDF em um arquivo local
+                with open(f"{data_formatada}.pdf", 'wb') as f:
+                    f.write(resposta.content)
+                print("PDF baixado com sucesso!")
+            else:
+                print(f"Não foi possível baixar o PDF. Status code: {resposta.status_code}")
         contador = contador + 1
         sleep(2)
+
+# URL final do PDF
+                    
+def obter_url_final_apos_redirecionamentos(url_link):
+    # Inicialize o navegador
+    navegador = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    
+    # Faça uma solicitação GET para obter a URL final após os redirecionamentos
+    navegador.get(url_link)
+    
+    # Obtenha a URL inicial
+    url_anterior = navegador.current_url
+    
+    # Repita o processo até que não haja mais redirecionamentos
+    while True:
+        # Aguarde um segundo para garantir que a página seja carregada completamente
+        sleep(1)
+        
+        # Obtenha a URL atual
+        url_atual = navegador.current_url
+        
+        # Se a URL atual for diferente da anterior, atualize a URL anterior e continue o loop
+        if url_atual != url_anterior:
+            url_anterior = url_atual
+            continue
+        else:
+            # Se não houver mais redirecionamentos, retorne a URL final e feche o navegador
+            navegador.quit()
+            return url_atual
+
+                
 
 def pegar_pdfs():
     # <td class="calWeekDaySel"><a class="WeekDay" href="dc_20b.asp?selCodColecaoCsv=D&amp;Datain=5/2/2019">5</a></td> 

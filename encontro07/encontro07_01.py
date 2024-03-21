@@ -63,7 +63,7 @@ def acessar_pagina_dinamica(link):
             # Verifique se a solicitação foi bem-sucedida (status code 200)
             if resposta.status_code == 200:
                 # Salve o conteúdo do PDF em um arquivo local
-                with open(f"{data_formatada}.pdf", 'wb') as f:
+                with open(f"/home/lantri_rafaelalmeida/codigo/fundamentos_quinta-feira/dados/{data_formatada}.pdf", 'wb') as f:
                     f.write(resposta.content)
                 print("PDF baixado com sucesso!")
             else:

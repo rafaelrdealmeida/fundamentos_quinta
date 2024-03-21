@@ -5,20 +5,25 @@ from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 
-#TODO: qual ferramenta utilizar para a coleta (beautifulsoap ou selenium)?
-#TODO: pagina estática VS página dinamica
-#TODO: webscraping com selenium
+#TODO: qual ferramenta utilizar para a coleta (beautifulsoap ou selenium)? - ok
+#TODO: pagina estática VS página dinamica - ok
+#TODO: webscraping com selenium - ok
 #TODO: analise dos dados
 
 
 def acessar_pagina_dinamica(link):
+    options = Options()
+    options.add_argument('--headless=new')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage') 
     # emulador de navegador
-    navegador = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    navegador = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     # acessar a página
     navegador.get(link)
     sleep(2)
